@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -22,15 +23,33 @@ android {
     }
 
     buildTypes {
-        debug {}
+        debug {
+            applicationIdSuffix = ".dev"
+            buildConfigField("String", "URL_WEBSERVICE", "\"https://609a908e0f5a13001721b74e.mockapi.io/picpay/api/\"")
+        }
 
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        register("dev") {
+            initWith(getByName("debug"))
+        }
+
+        register("pilot") {
+            initWith(getByName("release"))
+            buildConfigField("String", "URL_WEBSERVICE", "\"https://609a908e0f5a13001721b74e.mockapi.io/picpay/api/\"")
+        }
+
+        register("production") {
+            initWith(getByName("release"))
+            buildConfigField("String", "URL_WEBSERVICE", "\"https://609a908e0f5a13001721b74e.mockapi.io/picpay/api/\"")
         }
     }
 

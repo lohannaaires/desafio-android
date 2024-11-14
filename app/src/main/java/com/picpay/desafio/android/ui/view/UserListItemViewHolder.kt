@@ -1,7 +1,9 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.ui.view
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.picpay.desafio.android.R
+import com.picpay.desafio.android.data.user.model.User
 import com.picpay.desafio.android.databinding.ListItemUserBinding
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -9,7 +11,6 @@ import com.squareup.picasso.Picasso
 class UserListItemViewHolder(
     private val binding: ListItemUserBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-
     fun bind(user: User) {
         binding.name.text = user.name
         binding.username.text = user.username
