@@ -1,22 +1,48 @@
 package com.picpay.desafio.android.data.user.repository
 
 import android.util.Log
-import com.picpay.desafio.android.data.common.model.ApiResult
-import com.picpay.desafio.android.data.user.model.User
+import androidx.lifecycle.LiveData
+import com.picpay.desafio.android.data.user.db.UserEntity
+import com.picpay.desafio.android.data.user.local.UserLocalService
+import com.picpay.desafio.android.data.user.model.UserMap
+import com.picpay.desafio.android.data.user.model.UserModel
 import com.picpay.desafio.android.data.user.remote.PicPayService
 
-class UserRepositoryImpl(private val service: PicPayService) : UserRepository {
-    override suspend fun getUsers(): ApiResult<List<User>> {
-        return try {
-            val callback = service.getUsers()
-            callback.body()?.let {
-                ApiResult.Success(it)
-            } ?: ApiResult.Error(Throwable(callback.message()))
+class UserRepositoryImpl(
+    private val remoteService: PicPayService,
+    private val localService: UserLocalService
+) : UserRepository {
+    override fun getCachedUsersLiveData(): LiveData<List<UserEntity>> {
+        return localService.getUsersLiveData()
+    }
 
-        } catch (e: Throwable) {
+    override suspend fun getCachedUsers(): List<UserEntity> {
+        return localService.getUsers()
+    }
+
+    override suspend fun fetchAndCacheUsers() {
+        try {
+            val cachedUsers = localService.getUsers()
+            val response = remoteService.getUsers()
+
+            if (response.isSuccessful) {
+                val usersFromApi = response.body().orEmpty()
+
+                if (shouldUpdateCache(UserMap.fromDBList(cachedUsers), usersFromApi)) {
+                    localService.cleanUsers()
+                    localService.saveUsers(UserMap.toDBList(usersFromApi))
+                }
+            }
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.e("UserRepositoryImpl", e.message.toString())
-            ApiResult.Error(Throwable("Ocorreu um erro. Tente novamente."))
         }
+    }
+
+    private fun shouldUpdateCache(
+        cachedUsers: List<UserModel>,
+        apiUsers: List<UserModel>
+    ): Boolean {
+        return cachedUsers.isEmpty() || cachedUsers != apiUsers
     }
 }

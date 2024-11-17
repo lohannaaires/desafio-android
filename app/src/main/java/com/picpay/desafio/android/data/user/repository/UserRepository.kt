@@ -1,8 +1,10 @@
 package com.picpay.desafio.android.data.user.repository
 
-import com.picpay.desafio.android.data.common.model.ApiResult
-import com.picpay.desafio.android.data.user.model.User
+import androidx.lifecycle.LiveData
+import com.picpay.desafio.android.data.user.db.UserEntity
 
 interface UserRepository {
-    suspend fun getUsers(): ApiResult<List<User>>
+    fun getCachedUsersLiveData(): LiveData<List<UserEntity>>
+    suspend fun getCachedUsers(): List<UserEntity>
+    suspend fun fetchAndCacheUsers()
 }

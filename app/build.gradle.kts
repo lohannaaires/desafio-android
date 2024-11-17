@@ -105,6 +105,11 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.3.1")
     implementation("com.squareup.okhttp3:mockwebserver:4.3.1")
 
+    implementation("androidx.room:room-runtime:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-common:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("de.hdodenhof:circleimageview:3.0.0")
 

@@ -1,7 +1,8 @@
 package com.picpay.desafio.android.ui.application
 
 import android.app.Application
-import com.picpay.desafio.android.data.common.remote.RemoteModule
+import com.picpay.desafio.android.data.common.di.LocalModule
+import com.picpay.desafio.android.data.common.di.RemoteModule
 import com.picpay.desafio.android.data.user.di.UserModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -15,6 +16,7 @@ class MainApplication : Application() {
             androidContext(this@MainApplication)
             androidLogger()
             modules(
+                LocalModule.dbModule,
                 RemoteModule.networkModule,
                 UserModule.userModule
             )

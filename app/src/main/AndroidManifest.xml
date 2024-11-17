@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.view.MainActivity"
+            android:name=".ui.user.view.MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true" >
             <intent-filter>
