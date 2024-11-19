@@ -12,6 +12,7 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
+import org.hamcrest.Matchers.allOf
 import org.junit.Test
 
 
@@ -43,17 +44,24 @@ class MainActivityTest {
             }
         }
 
-        server.start(serverPort)
+        server.start(SERVER_PORT)
 
         launchActivity<MainActivity>().apply {
-            // TODO("validate if list displays items returned by server")
+            RecyclerViewMatchers.checkRecyclerViewItem(
+                resId = R.id.recyclerView,
+                position = 0,
+                withMatcher = allOf(
+                    withText("Eduardo Santos"),
+                    withText("@eduardo.santos")
+                )
+            )
         }
 
         server.close()
     }
 
     companion object {
-        private const val serverPort = 8080
+        private const val SERVER_PORT = 8080
 
         private val successResponse by lazy {
             val body =
