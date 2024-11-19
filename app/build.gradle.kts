@@ -92,7 +92,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.17")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
@@ -113,11 +113,11 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("de.hdodenhof:circleimageview:3.0.0")
 
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:2.27.0")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
-    implementation("io.insert-koin:koin-test-junit4:3.5.0")
+    testImplementation("io.insert-koin:koin-test-junit4:3.5.0")
 
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")

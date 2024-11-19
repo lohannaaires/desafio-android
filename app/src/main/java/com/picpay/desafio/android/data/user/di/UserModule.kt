@@ -17,10 +17,16 @@ object UserModule {
     private fun provideRemoteService(retrofit: Retrofit): PicPayService =
         retrofit.create(PicPayService::class.java)
 
-    val userModule = module {
+    val localModule = module {
         single { get<AppDatabase>().userDao() }
+    }
+
+    val remoteModule = module {
         single { provideRemoteService(get()) }
-        single<UserLocalService> { UserLocalServiceImpl(get()) }
+    }
+
+    val userModule = module {
+        singleOf(::UserLocalServiceImpl) { bind<UserLocalService>() }
         singleOf(::UserRepositoryImpl) { bind<UserRepository>() }
         viewModelOf(::UserViewModel)
     }

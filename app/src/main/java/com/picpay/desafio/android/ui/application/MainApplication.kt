@@ -18,6 +18,8 @@ class MainApplication : Application() {
             modules(
                 LocalModule.dbModule,
                 RemoteModule.networkModule,
+                UserModule.localModule,
+                UserModule.remoteModule,
                 UserModule.userModule
             )
         }
