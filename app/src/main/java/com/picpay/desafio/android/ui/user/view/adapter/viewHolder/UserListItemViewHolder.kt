@@ -12,19 +12,19 @@ class UserListItemViewHolder(
     private val binding: ListItemUserBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(userModel: UserModel) {
-        binding.name.text = userModel.name
-        binding.username.text = userModel.username
-        binding.progressBar.visibility = View.VISIBLE
+        binding.tvName.text = userModel.name
+        binding.tvUsername.text = userModel.username
+        binding.pbUser.visibility = View.VISIBLE
         Picasso.get()
             .load(userModel.img)
             .error(R.drawable.ic_round_account_circle)
-            .into(binding.picture, object : Callback {
+            .into(binding.civPicture, object : Callback {
                 override fun onSuccess() {
-                    binding.progressBar.visibility = View.GONE
+                    binding.pbUser.visibility = View.GONE
                 }
 
                 override fun onError(e: Exception?) {
-                    binding.progressBar.visibility = View.GONE
+                    binding.pbUser.visibility = View.GONE
                 }
             })
     }

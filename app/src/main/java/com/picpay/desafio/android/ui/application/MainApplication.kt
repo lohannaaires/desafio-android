@@ -19,8 +19,9 @@ class MainApplication : Application() {
                 LocalModule.dbModule,
                 RemoteModule.networkModule,
                 UserModule.localModule,
-                UserModule.remoteModule,
-                UserModule.userModule
+                UserModule.serviceModule,
+                UserModule.repositoryModule,
+                UserModule.viewModelModule
             )
         }
     }

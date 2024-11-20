@@ -35,7 +35,7 @@ class UserRepositoryImpl(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("UserRepositoryImpl", e.message.toString())
+            Log.e("Error message: ", e.message.toString())
         }
     }
 

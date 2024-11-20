@@ -48,7 +48,7 @@ class MainActivityTest {
 
         launchActivity<MainActivity>().apply {
             RecyclerViewMatchers.checkRecyclerViewItem(
-                resId = R.id.recyclerView,
+                resId = R.id.rvUsers,
                 position = 0,
                 withMatcher = allOf(
                     withText("Eduardo Santos"),

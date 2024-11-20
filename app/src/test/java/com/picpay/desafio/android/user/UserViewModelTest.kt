@@ -1,9 +1,11 @@
 package com.picpay.desafio.android.user
 
+import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.picpay.desafio.android.data.user.db.UserEntity
 import com.picpay.desafio.android.data.user.repository.UserRepository
+import com.picpay.desafio.android.R
 import com.picpay.desafio.android.ui.user.viewModel.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,6 +27,9 @@ class UserViewModelTest {
     @Mock
     lateinit var mockRepository: UserRepository
 
+    @Mock
+    private lateinit var mockApplication: Application
+
     private lateinit var userViewModel: UserViewModel
     private val testDispatcher = StandardTestDispatcher()
 
@@ -33,7 +38,7 @@ class UserViewModelTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         Dispatchers.setMain(testDispatcher)
-        userViewModel = UserViewModel(mockRepository)
+        userViewModel = UserViewModel(mockRepository, mockApplication)
     }
 
     @Test(expected = RuntimeException::class)
@@ -83,16 +88,17 @@ class UserViewModelTest {
 
         // Verificação
         assertEquals(
-            "Erro ao carregar os dados. Tente novamente mais tarde.",
+            mockApplication.resources.getString(R.string.error),
             userViewModel.error.value
         )
 
         Mockito.verify(errorObserver)
-            .onChanged("Erro ao carregar os dados. Tente novamente mais tarde.")
+            .onChanged(mockApplication.resources.getString(R.string.error))
     }
 
     @Test(expected = RuntimeException::class)
     fun `loadUsers should set error message when exception is thrown`() = runTest {
+        // Configuração
         Mockito.`when`(mockRepository.fetchAndCacheUsers()).thenThrow(
             RuntimeException("API error message")
         )
@@ -107,12 +113,12 @@ class UserViewModelTest {
 
         // Verificação
         assertEquals(
-            "Erro ao carregar os dados. Tente novamente mais tarde.",
+            mockApplication.resources.getString(R.string.error),
             userViewModel.error.value
         )
 
         Mockito.verify(errorObserver)
-            .onChanged("Erro ao carregar os dados. Tente novamente mais tarde.")
+            .onChanged(mockApplication.resources.getString(R.string.error))
     }
 
     @Test

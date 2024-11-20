@@ -21,13 +21,16 @@ object UserModule {
         single { get<AppDatabase>().userDao() }
     }
 
-    val remoteModule = module {
+    val serviceModule = module {
+        singleOf(::UserLocalServiceImpl) { bind<UserLocalService>() }
         single { provideRemoteService(get()) }
     }
 
-    val userModule = module {
-        singleOf(::UserLocalServiceImpl) { bind<UserLocalService>() }
+    val repositoryModule = module {
         singleOf(::UserRepositoryImpl) { bind<UserRepository>() }
+    }
+
+    val viewModelModule = module {
         viewModelOf(::UserViewModel)
     }
 }

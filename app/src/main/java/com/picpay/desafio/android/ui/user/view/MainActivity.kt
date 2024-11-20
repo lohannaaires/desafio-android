@@ -28,24 +28,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUI() {
         setAdapter()
-        binding.userListProgressBar.show()
+        binding.pbUserList.show()
         viewModel.loadUsers()
     }
 
     private fun setAdapter() {
         adapter = UserListAdapter()
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.rvUsers.adapter = adapter
+        binding.rvUsers.layoutManager = LinearLayoutManager(this)
     }
 
     private fun setObservers() {
         viewModel.users.observe(this) {
-            binding.userListProgressBar.dismiss()
+            binding.pbUserList.dismiss()
             adapter.update(UserMap.fromDBList(it))
         }
 
         viewModel.error.observe(this) { message ->
-            binding.userListProgressBar.dismiss()
+            binding.pbUserList.dismiss()
             message?.let {
                 Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
                 viewModel.cleanErrorMessage()

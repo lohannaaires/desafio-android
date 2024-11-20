@@ -116,6 +116,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:2.27.0")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
+    testImplementation("io.mockk:mockk:1.13.7")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("io.insert-koin:koin-test-junit4:3.5.0")
 
