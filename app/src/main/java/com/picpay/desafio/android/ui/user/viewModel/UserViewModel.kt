@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.data.user.db.UserEntity
 import com.picpay.desafio.android.data.user.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val repository: UserRepository, application: Application) :
@@ -22,24 +23,24 @@ class UserViewModel(private val repository: UserRepository, application: Applica
     private val resources = application.resources
 
     fun loadUsers() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.fetchAndCacheUsers()
 
                 val cachedUsers = repository.getCachedUsers()
 
-                _error.value = when {
-                    cachedUsers.isEmpty() -> getErrorMessage()
-                    else -> null
+                when {
+                    cachedUsers.isEmpty() -> _error.postValue(getErrorMessage())
+                    else -> _error.postValue(null)
                 }
             } catch (e: Exception) {
-                _error.value = getErrorMessage()
+                _error.postValue(getErrorMessage())
             }
         }
     }
 
     fun cleanErrorMessage() {
-        _error.value = null
+        _error.postValue(null)
     }
 
     private fun getErrorMessage(): String {
